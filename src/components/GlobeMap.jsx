@@ -1,7 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Globe from 'react-globe.gl'
 
-export default function GlobeMap() {
+const getAqiColor = (aqi) => {
+  if (aqi <= 50) return 'var(--aqi-good)'
+  if (aqi <= 100) return 'var(--aqi-moderate)'
+  if (aqi <= 150) return 'var(--aqi-unhealthy-sensitive)'
+  if (aqi <= 200) return 'var(--aqi-unhealthy)'
+  if (aqi <= 300) return 'var(--aqi-very-unhealthy)'
+  return 'var(--aqi-hazardous)'
+}
+
+export default function GlobeMap({ locations = [] }) {
   const globeRef = useRef()
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
@@ -23,14 +32,22 @@ export default function GlobeMap() {
   // Initial animation
   useEffect(() => {
     if (globeRef.current) {
-      // Auto-rotate
       globeRef.current.controls().autoRotate = true
       globeRef.current.controls().autoRotateSpeed = 0.5
-
-      // Set initial point of view
       globeRef.current.pointOfView({ altitude: 2.5 }, 4000)
     }
   }, [])
+
+  // Fly to the newly added location
+  useEffect(() => {
+    if (locations.length > 0 && globeRef.current) {
+      const latest = locations[locations.length - 1]
+      globeRef.current.pointOfView(
+        { lat: latest.lat, lng: latest.lng, altitude: 1.5 },
+        2000
+      )
+    }
+  }, [locations])
 
   return (
     <div className="globe-container">
@@ -43,6 +60,19 @@ export default function GlobeMap() {
         backgroundColor="#050510"
         atmosphereColor="#a5b4fc"
         atmosphereAltitude={0.15}
+        htmlElementsData={locations}
+        htmlElement={(d) => {
+          const el = document.createElement('div')
+          el.className = 'marker'
+          const color = getAqiColor(d.aqi)
+          el.style.color = color
+          el.innerHTML = `
+            <div class="marker-dot" style="background-color: ${color}"></div>
+            <div class="marker-label">${d.city}: ${d.aqi} AQI</div>
+          `
+          return el
+        }}
+        htmlAltitude={0.05}
       />
     </div>
   )

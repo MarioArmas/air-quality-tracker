@@ -126,3 +126,110 @@
   border-radius: 50%;
   box-shadow: 0 0 8px currentColor;
 }
+
+/* Search Panel */
+.search-panel {
+  padding: 20px;
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 320px;
+}
+
+.search-panel h3 {
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-main);
+  margin: 0 0 8px 0;
+}
+
+.search-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.search-input {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-input:focus {
+  border-color: #a5b4fc;
+}
+
+.search-button {
+  background: #a5b4fc;
+  color: #050510;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 0.2s, background-color 0.2s;
+}
+
+.search-button:hover {
+  background: #818cf8;
+}
+
+.search-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* API Error Handling */
+.error-msg {
+  color: #ff4a4a;
+  font-size: 0.75rem;
+  margin-top: 4px;
+}
+
+/* HTML Markers for Globe */
+.marker {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.marker-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 15px currentColor;
+  animation: pulse-marker 2s infinite ease-in-out;
+}
+
+.marker-label {
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin-top: 4px;
+  white-space: nowrap;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@keyframes pulse-marker {
+  0% { transform: scale(0.9); box-shadow: 0 0 10px currentColor; }
+  50% { transform: scale(1.1); box-shadow: 0 0 20px currentColor; }
+  100% { transform: scale(0.9); box-shadow: 0 0 10px currentColor; }
+}
