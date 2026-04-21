@@ -1,13 +1,33 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './App.css'
 import GlobeMap from './components/GlobeMap'
 import OverlayUI from './components/OverlayUI'
-import { fetchAirQuality } from './services/iqairService'
+import {
+  fetchAirQuality,
+  fetchNearestCityAirQuality,
+} from './services/iqairService'
 
 function App() {
   const [locations, setLocations] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+
+  // Fetch nearest city on component mount
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      setLoading(true)
+      try {
+        const initialLocation = await fetchNearestCityAirQuality()
+        setLocations([initialLocation])
+      } catch (err) {
+        console.error('Initial fetch error:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchInitialData()
+  }, [])
 
   const handleSearch = async (city, state, country) => {
     setLoading(true)
