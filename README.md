@@ -1,70 +1,105 @@
-# Getting Started with Create React App
+# 🌍 Air Quality Tracker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+An interactive 3D globe web application that visualizes real-time air quality data worldwide using the IQAir API.
 
-## Available Scripts
+![React](https://img.shields.io/badge/React-19-61DAFB?style=flat&logo=react)
+![Three.js](https://img.shields.io/badge/Three.js-0.184-black?style=flat&logo=three.js)
+![IQAir](https://img.shields.io/badge/API-IQAir-4CAF50?style=flat)
 
-In the project directory, you can run:
+## ✨ Features
 
-### `npm start`
+- **3D Interactive Globe** — Powered by `react-globe.gl` and Three.js. Rotate, zoom, and explore the world.
+- **Real-Time Air Quality** — Fetches live AQI data from the [IQAir API](https://www.iqair.com/air-pollution-data-api).
+- **Location Detection** — On load, the app requests permission to use your location and automatically shows local air quality if granted.
+- **City Search** — Search any city, state, and country to pin its AQI on the globe.
+- **AQI Legend** — Color-coded legend (Good → Hazardous) rendered as a glassmorphic overlay.
+- **Glassmorphism UI** — Sleek dark-mode interface with frosted glass panels and smooth animations.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🛠️ Tech Stack
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+| Tool              | Purpose                     |
+| ----------------- | --------------------------- |
+| React 19          | UI framework                |
+| react-globe.gl    | 3D globe renderer           |
+| Three.js          | WebGL layer under the globe |
+| Lucide React      | Icon library                |
+| IQAir API         | Air quality data source     |
+| CSS (Vanilla)     | Styling & animations        |
+| ESLint + Prettier | Code quality                |
 
-### `npm test`
+## 🚀 Getting Started
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
 
-### `npm run build`
+- Node.js ≥ 18
+- An [IQAir API key](https://www.iqair.com/air-pollution-data-api) (free tier available)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Installation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+# 1. Clone the repository
+git clone https://github.com/MarioArmas/air-quality-tracker.git
+cd air-quality-tracker
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# 2. Install dependencies
+npm install
 
-### `npm run eject`
+# 3. Set up environment variables
+cp .env.example .env   # then add your API key (see below)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+# 4. Start the development server
+npm start
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Environment Variables
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Create a `.env` file in the project root with the following:
 
-## Learn More
+```env
+REACT_APP_IQAIR_API_KEY=your_iqair_api_key_here
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 📁 Project Structure
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+src/
+├── components/
+│   ├── GlobeMap.jsx              # 3D globe with AQI markers
+│   ├── Header.jsx                # App title panel
+│   ├── Legend.jsx                # AQI color legend
+│   ├── LocationPermissionModal.jsx  # Location consent modal
+│   ├── OverlayUI.jsx             # Main glassmorphic overlay
+│   └── SearchForm.jsx            # City search form
+├── services/
+│   └── iqairService.js           # IQAir API integration
+├── App.js                        # Root component & state
+├── App.css                       # Component & layout styles
+└── index.css                     # Global design tokens
+```
 
-### Code Splitting
+## 🎨 AQI Color Scale
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+| Category                       | AQI Range | Color     |
+| ------------------------------ | --------- | --------- |
+| Good                           | 0 – 50    | 🟢 Green  |
+| Moderate                       | 51 – 100  | 🟡 Yellow |
+| Unhealthy for Sensitive Groups | 101 – 150 | 🟠 Orange |
+| Unhealthy                      | 151 – 200 | 🔴 Red    |
+| Very Unhealthy                 | 201 – 300 | 🟣 Purple |
+| Hazardous                      | 301+      | 🟤 Maroon |
 
-### Analyzing the Bundle Size
+## 📜 Available Scripts
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+| Script           | Description                                |
+| ---------------- | ------------------------------------------ |
+| `npm start`      | Run development server at `localhost:3000` |
+| `npm run build`  | Build optimized production bundle          |
+| `npm test`       | Run test suite                             |
+| `npm run lint`   | Lint source files with ESLint              |
+| `npm run format` | Format source files with Prettier          |
 
-### Making a Progressive Web App
+## 📄 License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is open source and available under the [MIT License](LICENSE).
