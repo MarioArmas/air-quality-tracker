@@ -70,7 +70,7 @@ export default function SearchForm({ onSearch, loading, error }) {
     }
   }
 
-  const selectClass = 'search-input search-select'
+  const selectClass = 'search-select'
 
   return (
     <div className="glass-panel search-panel">
@@ -78,7 +78,7 @@ export default function SearchForm({ onSearch, loading, error }) {
       <form className="search-form" onSubmit={handleSubmit}>
         {/* Country */}
         <div className="select-wrapper">
-          {loadingCountries && <Loader2 className="select-spinner" size={14} />}
+          <span className="select-label">Country</span>
           <select
             className={selectClass}
             value={country}
@@ -91,11 +91,12 @@ export default function SearchForm({ onSearch, loading, error }) {
               </option>
             ))}
           </select>
+          {loadingCountries && <Loader2 className="select-spinner" size={14} />}
         </div>
 
         {/* State */}
         <div className="select-wrapper">
-          {loadingStates && <Loader2 className="select-spinner" size={14} />}
+          <span className="select-label">State / Province</span>
           <select
             className={selectClass}
             value={state}
@@ -108,11 +109,12 @@ export default function SearchForm({ onSearch, loading, error }) {
               </option>
             ))}
           </select>
+          {loadingStates && <Loader2 className="select-spinner" size={14} />}
         </div>
 
         {/* City */}
         <div className="select-wrapper">
-          {loadingCities && <Loader2 className="select-spinner" size={14} />}
+          <span className="select-label">City</span>
           <select
             className={selectClass}
             value={city}
@@ -125,6 +127,7 @@ export default function SearchForm({ onSearch, loading, error }) {
               </option>
             ))}
           </select>
+          {loadingCities && <Loader2 className="select-spinner" size={14} />}
         </div>
 
         <button

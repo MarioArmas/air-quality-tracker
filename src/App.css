@@ -196,29 +196,82 @@
 .select-wrapper {
   position: relative;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.select-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #a5b4fc;
+  padding-left: 2px;
+  opacity: 0.85;
 }
 
 .search-select {
   width: 100%;
   appearance: none;
   -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.5)' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  padding-right: 30px;
+  background: rgba(5, 5, 20, 0.55);
+  border: 1px solid rgba(165, 180, 252, 0.2);
+  color: #f0f0f0;
+  padding: 9px 34px 9px 12px;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-family: inherit;
+  outline: none;
   cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+  /* Custom chevron arrow */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a5b4fc' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+.search-select:hover:not(:disabled) {
+  border-color: rgba(165, 180, 252, 0.45);
+  background-color: rgba(15, 10, 35, 0.65);
+  box-shadow:
+    0 0 0 1px rgba(165, 180, 252, 0.12),
+    0 2px 12px rgba(165, 180, 252, 0.08);
+}
+
+.search-select:focus:not(:disabled) {
+  border-color: #a5b4fc;
+  box-shadow:
+    0 0 0 2px rgba(165, 180, 252, 0.2),
+    0 0 16px rgba(165, 180, 252, 0.12);
+  background-color: rgba(20, 15, 45, 0.7);
 }
 
 .search-select:disabled {
-  opacity: 0.45;
+  opacity: 0.35;
   cursor: not-allowed;
+  border-color: rgba(255, 255, 255, 0.08);
 }
 
-/* Small spinner overlaid on the right of the select */
+/* Style the dropdown list options */
+.search-select option {
+  background: #0d0d22;
+  color: #e0e0f0;
+  padding: 8px 12px;
+}
+
+.search-select option:checked {
+  background: #1e1b4b;
+  color: #a5b4fc;
+}
+
+/* Spinner inside the wrapper — sits at bottom-right of the select */
 .select-spinner {
   position: absolute;
-  right: 10px;
+  right: 12px;
+  bottom: 9px;
   color: #a5b4fc;
   animation: spin 0.8s linear infinite;
   pointer-events: none;
@@ -226,7 +279,38 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ─── Custom scrollbar (webkit) for the search panel ─────────── */
+.search-panel {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(165, 180, 252, 0.35) transparent;
+}
+
+.search-panel::-webkit-scrollbar {
+  width: 4px;
+}
+
+.search-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.search-panel::-webkit-scrollbar-thumb {
+  background: rgba(165, 180, 252, 0.35);
+  border-radius: 999px;
+}
+
+.search-panel::-webkit-scrollbar-thumb:hover {
+  background: rgba(165, 180, 252, 0.6);
+}
+
+/* Global custom scrollbar for <select> dropdown (Firefox) */
+select {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(165, 180, 252, 0.4) #0d0d22;
 }
 
 /* API Error Handling */
