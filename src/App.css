@@ -192,6 +192,43 @@
   cursor: not-allowed;
 }
 
+/* ─── Cascading select wrappers ──────────────────────────────── */
+.select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-select {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.5)' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
+  cursor: pointer;
+}
+
+.search-select:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Small spinner overlaid on the right of the select */
+.select-spinner {
+  position: absolute;
+  right: 10px;
+  color: #a5b4fc;
+  animation: spin 0.8s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 /* API Error Handling */
 .error-msg {
   color: #ff4a4a;
