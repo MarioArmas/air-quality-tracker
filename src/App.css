@@ -31,20 +31,19 @@
   left: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none; /* Let clicks pass through to globe */
+  pointer-events: none;
   z-index: 10;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 24px;
 }
 
 /* Overlay Header */
 .overlay-header {
+  position: absolute;
+  top: 24px;
+  left: 24px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: flex-start;
-  pointer-events: auto; /* allow clicks on panels */
+  pointer-events: auto;
 }
 
 .title-panel {
@@ -86,8 +85,9 @@
 
 /* Legend Panel */
 .overlay-footer {
-  display: flex;
-  justify-content: flex-end;
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
   pointer-events: auto;
 }
 

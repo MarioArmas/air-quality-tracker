@@ -8,10 +8,8 @@ export default function OverlayUI({ onSearch, loading, error }) {
     <div className="overlay-ui">
       {/* Header & Search */}
       <div className="overlay-header">
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <Header />
-          <SearchForm onSearch={onSearch} loading={loading} error={error} />
-        </div>
+        <Header />
+        <SearchForm onSearch={onSearch} loading={loading} error={error} />
       </div>
 
       {/* Footer / Legend */}
