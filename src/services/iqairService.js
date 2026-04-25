@@ -1,6 +1,4 @@
-let countriesCache = null
-const statesCache = new Map()
-const citiesCache = new Map()
+import { cacheGet, cacheSet } from './cacheService'
 
 const getApiKey = () => {
   const key = process.env.REACT_APP_IQAIR_API_KEY
@@ -8,9 +6,10 @@ const getApiKey = () => {
   return key
 }
 
-// Fetch the list of supported countries — cached after the first call
+// Fetch the list of supported countries — cached (memory → localStorage → API)
 export const fetchCountries = async () => {
-  if (countriesCache) return countriesCache
+  const cached = cacheGet('iqair_countries')
+  if (cached) return cached
 
   const res = await fetch(
     `https://api.airvisual.com/v2/countries?key=${getApiKey()}`
@@ -19,14 +18,16 @@ export const fetchCountries = async () => {
   const result = await res.json()
   if (result.status !== 'success') throw new Error('Countries data unavailable')
 
-  // result.data is [{country: "Australia"}, ...]
-  countriesCache = result.data.map((c) => c.country).sort()
-  return countriesCache
+  const countries = result.data.map((c) => c.country).sort()
+  cacheSet('iqair_countries', countries)
+  return countries
 }
 
 // Fetch states for a given country — cached per country
 export const fetchStates = async (country) => {
-  if (statesCache.has(country)) return statesCache.get(country)
+  const key = `iqair_states_${country}`
+  const cached = cacheGet(key)
+  if (cached) return cached
 
   const res = await fetch(
     `https://api.airvisual.com/v2/states?country=${encodeURIComponent(country)}&key=${getApiKey()}`
@@ -36,14 +37,15 @@ export const fetchStates = async (country) => {
   if (result.status !== 'success') throw new Error('States data unavailable')
 
   const states = result.data.map((s) => s.state).sort()
-  statesCache.set(country, states)
+  cacheSet(key, states)
   return states
 }
 
-// Fetch cities for a given country+state — cached per pair
+// Fetch cities for a given country + state — cached per pair
 export const fetchCities = async (country, state) => {
-  const cacheKey = `${country}|${state}`
-  if (citiesCache.has(cacheKey)) return citiesCache.get(cacheKey)
+  const key = `iqair_cities_${country}_${state}`
+  const cached = cacheGet(key)
+  if (cached) return cached
 
   const res = await fetch(
     `https://api.airvisual.com/v2/cities?state=${encodeURIComponent(state)}&country=${encodeURIComponent(country)}&key=${getApiKey()}`
@@ -53,7 +55,7 @@ export const fetchCities = async (country, state) => {
   if (result.status !== 'success') throw new Error('Cities data unavailable')
 
   const cities = result.data.map((c) => c.city).sort()
-  citiesCache.set(cacheKey, cities)
+  cacheSet(key, cities)
   return cities
 }
 
