@@ -85,6 +85,10 @@ export const fetchAirQuality = async (city, state, country) => {
       lat: location.coordinates[1],
       lng: location.coordinates[0],
       aqi: current.pollution.aqius,
+      mainPollutant: current.pollution.mainus,
+      temperature: current.weather.tp,
+      humidity: current.weather.hu,
+      windSpeed: current.weather.ws,
     }
   } else {
     throw new Error('Data could not be retrieved.')
@@ -113,6 +117,10 @@ export const fetchNearestCityAirQuality = async () => {
       lat: location.coordinates[1],
       lng: location.coordinates[0],
       aqi: current.pollution.aqius,
+      mainPollutant: current.pollution.mainus,
+      temperature: current.weather.tp,
+      humidity: current.weather.hu,
+      windSpeed: current.weather.ws,
     }
   } else {
     throw new Error('Nearest city data could not be retrieved.')

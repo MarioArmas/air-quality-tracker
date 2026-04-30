@@ -10,12 +10,25 @@ const getAqiColor = (aqi) => {
   return 'var(--aqi-hazardous)'
 }
 
+const getPollutantName = (code) => {
+  const map = {
+    p2: 'PM2.5',
+    p1: 'PM10',
+    o3: 'Ozone',
+    n2: 'NO2',
+    s2: 'SO2',
+    co: 'CO',
+  }
+  return map[code] || code
+}
+
 export default function GlobeMap({ locations = [] }) {
   const globeRef = useRef()
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   })
+  const [selectedLocation, setSelectedLocation] = useState(null)
 
   // Handle window resize
   useEffect(() => {
@@ -46,6 +59,7 @@ export default function GlobeMap({ locations = [] }) {
         { lat: latest.lat, lng: latest.lng, altitude: 1.5 },
         2000
       )
+      setSelectedLocation(latest)
     }
   }, [locations])
 
@@ -70,10 +84,72 @@ export default function GlobeMap({ locations = [] }) {
             <div class="marker-dot" style="background-color: ${color}"></div>
             <div class="marker-label">${d.city}: ${d.aqi} AQI</div>
           `
+          el.style.pointerEvents = 'auto'
+          el.style.cursor = 'pointer'
+          el.onclick = () => {
+            setSelectedLocation(d)
+            if (globeRef.current) {
+              globeRef.current.pointOfView(
+                { lat: d.lat, lng: d.lng, altitude: 1.5 },
+                1000
+              )
+            }
+          }
           return el
         }}
         htmlAltitude={0.05}
       />
+
+      {selectedLocation && (
+        <div className="glass-panel location-details-card">
+          <button
+            className="close-btn"
+            onClick={() => setSelectedLocation(null)}
+          >
+            ✕
+          </button>
+          <h3>
+            {selectedLocation.city}, {selectedLocation.country}
+          </h3>
+          <div className="details-grid">
+            <div className="detail-item">
+              <span className="detail-label">AQI</span>
+              <span
+                className="detail-value"
+                style={{
+                  color: getAqiColor(selectedLocation.aqi),
+                  fontWeight: 'bold',
+                  fontSize: '1.2rem',
+                }}
+              >
+                {selectedLocation.aqi}
+              </span>
+            </div>
+            <div className="detail-item">
+              <span className="detail-label">Main Pollutant</span>
+              <span className="detail-value">
+                {getPollutantName(selectedLocation.mainPollutant)}
+              </span>
+            </div>
+            <div className="detail-item">
+              <span className="detail-label">Temperature</span>
+              <span className="detail-value">
+                {selectedLocation.temperature}°C
+              </span>
+            </div>
+            <div className="detail-item">
+              <span className="detail-label">Humidity</span>
+              <span className="detail-value">{selectedLocation.humidity}%</span>
+            </div>
+            <div className="detail-item">
+              <span className="detail-label">Wind</span>
+              <span className="detail-value">
+                {selectedLocation.windSpeed} m/s
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
